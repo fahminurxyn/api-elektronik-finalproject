@@ -11,6 +11,7 @@ class PenyewaanDetailModel extends Model
 
     protected $table = 'penyewaan_detail';
     protected $primaryKey = 'penyewaan_detail_id';
+    public $timestamps = true;
     protected $fillable = [
         'penyewaan_detail_penyewaan_id',
         'penyewaan_detail_alat_id',

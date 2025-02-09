@@ -12,6 +12,7 @@ class PenyewaanModel extends Model
 
     protected $table = 'penyewaan';
     protected $primaryKey = "penyewaan_id";
+    public $timestamps = true;
     protected $fillable = [
         'penyewaan_pelanggan_id',
         'penyewaan_tglsewa',

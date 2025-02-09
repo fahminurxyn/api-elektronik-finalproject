@@ -11,6 +11,7 @@ class PelangganModel extends Model
 
     protected $table = 'pelanggan';
     protected $primaryKey = 'pelanggan_id';
+    public $timestamps = true;
     protected $fillable = [
         'pelanggan_nama',
         'pelanggan_alamat',
@@ -52,5 +53,10 @@ class PelangganModel extends Model
     public function penyewaan()
     {
         return $this->hasMany(PenyewaanModel::class, 'penyewaan_pelanggan_id');
+    }
+
+    public function pelangganData()
+    {
+        return $this->hasMany(PelangganDataModel::class, 'pelanggan_data_pelanggan_id', 'pelanggan_data_id');
     }
 }

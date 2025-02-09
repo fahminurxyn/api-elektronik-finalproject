@@ -11,9 +11,11 @@ class KategoriModel extends Model
 
     protected $table = 'kategori';
     protected $primaryKey = 'kategori_id';
+    public $timestamps = true;
     protected $fillable = [
         'kategori_nama',
     ];
+
 
     public static function getKategori(){
         $kategori = self::all();
@@ -49,7 +51,7 @@ class KategoriModel extends Model
 
     public function alat()
     {
-        return $this->hasMany(AlatModel::class, 'alat_kategori_id');
+        return $this->hasMany(AlatModel::class, 'alat_kategori_id', 'alat_id');
     }
 
 }

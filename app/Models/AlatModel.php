@@ -11,6 +11,7 @@ class AlatModel extends Model
 
     protected $table = 'alat';
     protected $primaryKey = 'alat_id';
+    public $timestamps = true;
     protected $fillable = [
         'alat_kategori_id',
         'alat_nama',
@@ -54,11 +55,11 @@ class AlatModel extends Model
 
     public function kategori()
     {
-        return $this->belongsTo(KategoriModel::class, 'alat_kategori_id');
+        return $this->belongsTo(KategoriModel::class, 'alat_kategori_id', 'kategori_id');
     }
 
     public function penyewaanDetail()
     {
-        return $this->hasMany(PenyewaanDetailModel::class, 'penyewaan_detail_alat_id');
+        return $this->hasMany(PenyewaanDetailModel::class, 'penyewaan_detail_alat_id', 'alat_id');
     }
 }
