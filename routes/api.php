@@ -4,6 +4,7 @@ use App\Http\Controllers\AlatController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PenyewaanController;
+use App\Http\Controllers\PenyewaanDetailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,3 +16,4 @@ Route::apiResource('/pelanggan', PelangganController::class);
 Route::apiResource('/penyewaan', PenyewaanController::class);
 Route::apiResource('/kategori', KategoriController::class);
 Route::apiResource('/alat', AlatController::class);
+Route::apiResource('/penyewaan_detail', PenyewaanDetailController::class);

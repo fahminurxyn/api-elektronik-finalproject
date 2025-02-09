@@ -51,4 +51,14 @@ class AlatModel extends Model
 
         return $alat;
     }
+
+    public function kategori()
+    {
+        return $this->belongsTo(KategoriModel::class, 'alat_kategori_id');
+    }
+
+    public function penyewaanDetail()
+    {
+        return $this->hasMany(PenyewaanDetailModel::class, 'penyewaan_detail_alat_id');
+    }
 }

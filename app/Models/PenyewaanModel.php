@@ -58,4 +58,8 @@ class PenyewaanModel extends Model
         return $this->belongsTo(PelangganModel::class, 'penyewaan_pelanggan_id');
     }
 
+    public function penyewaanDetail()
+    {
+        return $this->hasMany(PenyewaanDetailModel::class, 'penyewaan_detail_penyewaan_id');
+    }
 }

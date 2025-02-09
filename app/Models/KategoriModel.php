@@ -47,4 +47,9 @@ class KategoriModel extends Model
         return $kategori;
     }
 
+    public function alat()
+    {
+        return $this->hasMany(AlatModel::class, 'alat_kategori_id');
+    }
+
 }
