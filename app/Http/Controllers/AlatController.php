@@ -92,7 +92,7 @@ class AlatController extends Controller
 
             $response = array(
                 'success' => true,
-                'message' => 'Successfuly get data kategori',
+                'message' => 'Successfuly get data alat',
                 'data' => $alat
             );
             return response()->json($response, 200);
@@ -117,13 +117,13 @@ class AlatController extends Controller
                 'alat_stok' => 'required|integer',
                 'alat_kategori_id' => 'required|integer|exists:kategori,kategori_id'
             ]);
-            $alat = AlatModel::updateKategori($validator->validate(), $alat_id);
+            $alat = AlatModel::updateAlat($validator->validate(), $alat_id);
             Cache::put('alat', AlatModel::getAlat(), 60 * 5);
 
             if ($validator->fails()) {
                 $response = array(
                     'success' => false,
-                    'message' => 'Failed to create data kategori, data not completed, please check your data',
+                    'message' => 'Failed to create data alat, data not completed, please check your data',
                     'data' => null,
                     'error' => $validator->errors()
                 );
@@ -140,7 +140,7 @@ class AlatController extends Controller
 
             $response = array(
                 'success' => true,
-                'message' => 'Successfuly get data kategori',
+                'message' => 'Successfuly update data alat',
                 'data' => $alat
             );
             return response()->json($response, 200);
@@ -158,12 +158,12 @@ class AlatController extends Controller
     public function destroy(int $alat_id)
     {
         try {
-            $alat = AlatModel::deleteKategori($alat_id);
+            $alat = AlatModel::deleteAlat($alat_id);
             Cache::put('alat', AlatModel::getAlat(), 60 * 5);
 
             $response = array(
                 'success' => true,
-                'message' => 'Successfuly delete data penyewaan',
+                'message' => 'Successfuly delete data alat',
                 'data' => $alat
             );
 

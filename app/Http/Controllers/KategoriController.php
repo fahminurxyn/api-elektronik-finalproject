@@ -115,7 +115,7 @@ class KategoriController extends Controller
             if ($validator->fails()) {
                 $response = array(
                     'success' => false,
-                    'message' => 'Failed to create data kategori, data not completed, please check your data',
+                    'message' => 'Failed to update data alat, data not completed, please check your data',
                     'data' => null,
                     'error' => $validator->errors()
                 );
@@ -132,7 +132,7 @@ class KategoriController extends Controller
 
             $response = array(
                 'success' => true,
-                'message' => 'Successfuly get data kategori',
+                'message' => 'Successfuly update alat kategori',
                 'data' => $kategori
             );
             return response()->json($response, 200);
@@ -155,7 +155,7 @@ class KategoriController extends Controller
 
             $response = array(
                 'success' => true,
-                'message' => 'Successfuly delete data penyewaan',
+                'message' => 'Successfuly delete data alat',
                 'data' => $kategori
             );
 

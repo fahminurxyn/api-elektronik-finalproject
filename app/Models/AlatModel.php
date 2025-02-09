@@ -47,7 +47,7 @@ class AlatModel extends Model
 
     public static function deleteAlat(int $alat_id){
         $alat = self::find($alat_id);
-        $alat->update($alat);
+        $alat->destroy($alat_id);
 
         return $alat;
     }

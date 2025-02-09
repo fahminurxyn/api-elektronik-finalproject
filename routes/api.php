@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AlatController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PenyewaanController;
 use Illuminate\Http\Request;
@@ -11,3 +13,5 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('/pelanggan', PelangganController::class);
 Route::apiResource('/penyewaan', PenyewaanController::class);
+Route::apiResource('/kategori', KategoriController::class);
+Route::apiResource('/alat', AlatController::class);
