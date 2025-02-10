@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AlatController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PelangganController;
@@ -19,3 +20,4 @@ Route::apiResource('/kategori', KategoriController::class);
 Route::apiResource('/alat', AlatController::class);
 Route::apiResource('/penyewaan_detail', PenyewaanDetailController::class);
 Route::apiResource('/pelanggan_data', PelangganDataController::class);
+Route::apiResource('/admin', AdminController::class);

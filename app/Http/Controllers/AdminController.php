@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AlatModel;
+use App\Models\AdminModel;
 use Cache;
 use Exception;
 use Illuminate\Http\Request;
 use Validator;
 
-class AlatController extends Controller
+class AdminController extends Controller
 {
-    public function index()
-    {
+    public function index(){
         try {
-            $alat = Cache::remember('alat', 60 * 60 * 24, function () {
-                return AlatModel::getAlat();
+            $admin = Cache::remember('admin', 60*60*24, function(){
+                return AdminModel::getAdmin();
             });
             $response = array(
                 'success' => true,
-                'message' => 'Successfuly get data alat',
-                'data' => $alat->isEmpty() ? null : $alat
+                'message' => 'Successfuly get data admin',
+                'data' => $admin->isEmpty() ? null : $admin
             );
             return response()->json($response, 200);
         } catch (Exception $error) {
@@ -33,105 +32,17 @@ class AlatController extends Controller
         }
     }
 
-    public function show(int $alat_id)
-    {
+    public function show(int $admin_id){
         try {
-            $cacheKey = 'alat_'.$alat_id;
-            $alat = Cache::remember($cacheKey, 60 * 60 * 24, function () use ($alat_id) {
-                return AlatModel::getAlatById($alat_id);
+            $cacheKey = 'admin_'.$admin_id;
+            $admin = Cache::remember($cacheKey, 60*60*24, function() use($admin_id){
+                return AdminModel::getAdminById($admin_id);
             });
 
-            if (!$alat) {
+            if(!$admin){
                 $response = array(
                     'success' => false,
-                    'message' => 'Pelanggan not found',
-                    'data' => null
-                );
-
-                return response()->json($response, 404);
-            }
-            $response = array(
-                'success' => true,
-                'message' => 'Successfuly get data kategori',
-                'data' => $alat
-            );
-            return response()->json($response, 200);
-        } catch (Exception $error) {
-            $response = array(
-                'success' => false,
-                'message' => 'Sorry, these error in internal server',
-                'data' => null,
-                'error' => $error->getMessage()
-            );
-            return response()->json($response, 500);
-        }
-    }
-
-    public function store(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'alat_nama' => 'required|string|max:150',
-                'alat_deskripsi' => 'required|string|max:255',
-                'alat_hargaperhari' => 'required|integer',
-                'alat_stok' => 'required|integer',
-                'alat_kategori_id' => 'required|integer|exists:kategori,kategori_id'
-            ]);
-            $alat = AlatModel::createAlat($validator->validate());
-            Cache::put('alat', AlatModel::getAlat(), 60 * 5);
-
-            if ($validator->fails()) {
-                $response = array(
-                    'success' => false,
-                    'message' => 'Failed to create data kategori, data not completed, please check your data',
-                    'data' => null,
-                    'error' => $validator->errors()
-                );
-                return response()->json($response, 400);
-            }
-
-            $response = array(
-                'success' => true,
-                'message' => 'Successfuly get data alat',
-                'data' => $alat
-            );
-            return response()->json($response, 200);
-        } catch (Exception $error) {
-            $response = array(
-                'success' => false,
-                'message' => 'Sorry, these error in internal server',
-                'data' => null,
-                'error' => $error->getMessage()
-            );
-            return response()->json($response, 500);
-        }
-    }
-
-    public function update(Request $request, int $alat_id)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'alat_nama' => 'required|string|max:150',
-                'alat_deskripsi' => 'required|string|max:255',
-                'alat_hargaperhari' => 'required|integer',
-                'alat_stok' => 'required|integer',
-                'alat_kategori_id' => 'required|integer|exists:kategori,kategori_id'
-            ]);
-            $alat = AlatModel::updateAlat($validator->validate(), $alat_id);
-            Cache::put('alat', AlatModel::getAlat(), 60 * 5);
-
-            if ($validator->fails()) {
-                $response = array(
-                    'success' => false,
-                    'message' => 'Failed to create data alat, data not completed, please check your data',
-                    'data' => null,
-                    'error' => $validator->errors()
-                );
-                return response()->json($response, 400);
-            } else if (!$alat) {
-                $response = array(
-                    'success' => false,
-                    'message' => 'Pelanggan not found',
+                    'message' => 'Data Admin not found',
                     'data' => null
                 );
 
@@ -140,8 +51,99 @@ class AlatController extends Controller
 
             $response = array(
                 'success' => true,
-                'message' => 'Successfuly update data alat',
-                'data' => $alat
+                'message' => 'Successfuly get data admin',
+                'data' => $admin->isEmpty() ? null : $admin
+            );
+            return response()->json($response, 200);
+        } catch (Exception $error) {
+            $response = array(
+                'success' => false,
+                'message' => 'Sorry, these error in internal server',
+                'data' => null,
+                'error' => $error->getMessage()
+            );
+            return response()->json($response, 500);
+        }
+
+    }
+
+    public function store(Request $request){
+        try {
+            $validator = Validator::make($request->all(), [
+                'admin_username' => 'required|string|max:50',
+                'admin_password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'max:50',
+                    'regex:/[A-Z]/',
+                    'regex:/[a-z]/',
+                    'regex:/[0-9]/',
+                    'regex:/[@$!%*?&#]/'
+                ]
+            ]);
+            if ($validator->fails()) {
+                $response = array(
+                    'success' => false,
+                    'message' => 'Failed to create data admin, data not completed, please check your data',
+                    'data' => null,
+                    'error' => $validator->errors()
+                );
+                return response()->json($response, 400);
+            }
+
+            $admin = AdminModel::createAdmin($validator->validate());
+            Cache::put('admin', AdminModel::getAdmin(), 60 * 5);
+
+            $response = array(
+                'success' => true,
+                'message' => 'Successfuly create data admin',
+                'data' => $admin
+            );
+            return response()->json($response, 201);
+        } catch (Exception $error) {
+            $response = array(
+                'success' => false,
+                'message' => 'Sorry, these error in internal server',
+                'data' => null,
+                'error' => $error->getMessage()
+            );
+            return response()->json($response, 500);
+        }
+    }
+
+    public function update(Request $request, int $admin_id){
+        try {
+            $validator = Validator::make($request->all(), [
+                'admin_username' => 'required|string|max:50',
+                'admin_password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'max:50',
+                    'regex:/[A-Z]/',
+                    'regex:/[a-z]/',
+                    'regex:/[0-9]/',
+                    'regex:/[@$!%*?&#]/'
+                ]
+            ]);
+            if ($validator->fails()) {
+                $response = array(
+                    'success' => false,
+                    'message' => 'Failed to create data admin, data not completed, please check your data',
+                    'data' => null,
+                    'error' => $validator->errors()
+                );
+                return response()->json($response, 400);
+            }
+
+            $admin = AdminModel::updateAdmin($validator->validate(), $admin_id);
+            Cache::put('admin', AdminModel::getAdmin(), 60 * 5);
+
+            $response = array(
+                'success' => true,
+                'message' => 'Successfuly update data admin',
+                'data' => $admin
             );
             return response()->json($response, 200);
         } catch (Exception $error) {
@@ -155,16 +157,15 @@ class AlatController extends Controller
         }
     }
 
-    public function destroy(int $alat_id)
-    {
+    public function destroy(int $admin_id){
         try {
-            $alat = AlatModel::deleteAlat($alat_id);
-            Cache::put('alat', AlatModel::getAlat(), 60 * 5);
+            $admin = AdminModel::deleteAdmin($admin_id);
+            Cache::put('admin', AdminModel::getAdmin(), 60 * 5);
 
             $response = array(
                 'success' => true,
-                'message' => 'Successfuly delete data alat',
-                'data' => $alat
+                'message' => 'Successfuly delete data admin',
+                'data' => $admin
             );
 
             return response()->json($response, 200);
